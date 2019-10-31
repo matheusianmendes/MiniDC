@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
      v.cpus = 1
 
 
+
     end
   end
     
