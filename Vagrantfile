@@ -7,6 +7,8 @@
 # you're doing.
 Vagrant.configure("2") do |config|
 
+    #PROVISIONANDO A MAQUINA DATABASE
+
     config.vm.define "db" do |db|
     db.vm.box = "ubuntu/bionic64"
     db.vm.hostname = "MiniDc-Database"
@@ -20,6 +22,8 @@ Vagrant.configure("2") do |config|
 
     end
   end
+    
+    #PROVISIONANDO A MAQUINA BLOG
 
   config.vm.define "blog" do |blog|
     blog.vm.box = "ubuntu/bionic64"
@@ -33,15 +37,34 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  #PROVISIONANDO A MAQUINA CONTROLLER
+
   config.vm.define "controller" do |controller|
     controller.vm.box = "ubuntu/bionic64"
     controller.vm.hostname = "MiniDC-AnsibleController"
     controller.vm.network "private_network", ip: "172.17.177.11"
-  
+
+    #Restingindo p permissionamento da pasta vagrant
+    controller.vm.synced_folder"./", "/vagrant", mount_options: ["dmode=750,fmode=600"]
+    
+    #Size da VM
     controller.vm.provider "virtualbox" do |v|
      v.name = "MiniDC-AnsibleController"
      v.memory = 512
      v.cpus = 1
+
+    end
+
+    #Configurando ansible para a maquina controller
+
+     controller.vm.provision :ansible_local do |ansible|
+     ansible.install_mode = "default"
+     ansible.playbook = "playbook.yml"
+     ansible.inventory_path="inventory"
+     ansible.verbose  = true
+     ansible.install  = true
+     ansible.limit    = "all"
+      
     end
   end
 end
