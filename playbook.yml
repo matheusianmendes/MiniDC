@@ -5,38 +5,69 @@
          - name: Ajustando o Timezone do servidor
            timezone:
                  name: America/Sao_Paulo
-#Controller 
+
+#CONTROLLER 
+
 - hosts: controllers
   remote_user: vagrant
-  bacome: yes 
+  become: yes 
   tasks:
         - name: Criando o Arquivo info 
           lineinfile:
-          path: /tmp/info
-          line: SERVIDOR ANSIBLE CONTROLLER
-          create: yes
+           path: /tmp/info
+           line: SERVIDOR ANSIBLE CONTROLLER
+           create: yes
 
-#Banco de  Dados 
+#BANCO DE DADOS
+
 - hosts: databases
   remote_user: vagrant
-  bacome: yes 
+  become: yes 
   tasks:
         - name: Criando o Arquivo info 
           lineinfile:
-          path: /tmp/info
-          line: SERVIDOR DE BANCO DE DADOS
-          create: yes
+           path: /tmp/info
+           line: SERVIDOR DE BANCO DE DADOS
+           create: yes
+
+        - name: Instalando o mysql server   
+          apt: 
+           state: present
+           pkg:
+            - mysql-server
+
+
+
           
-#Web Servers 
+#WEB SERVERS
+
 - hosts: webservers
   remote_user: vagrant
-  bacome: yes 
+  become: yes 
   tasks:
         - name: Criando o Arquivo info 
           lineinfile:
-          path: /tmp/info
-          line: SERVIDOR DO BLOG WORDPRESS
-          create: yes
+           path: /tmp/info
+           line: SERVIDOR DO BLOG WORDPRESS
+           create: yes
+        
+        - name: Instalando pacotes necessarios webserver
+          apt:
+           state: present
+           pkg:
+            - apache2
+            - php-curl
+            - php-gd
+            - php-mbstring
+            - php-xml
+            - php-xmlrpc
+            - php-soap
+            - php-intl
+            - php-zip
+            - php
+            - libapache2-mod-php
+            - php-mysql 
+            - php-cli
 
 
 
