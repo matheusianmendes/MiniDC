@@ -5,4 +5,39 @@
          - name: Ajustando o Timezone do servidor
            timezone:
                  name: America/Sao_Paulo
+#Controller 
+- hosts: controllers
+  remote_user: vagrant
+  bacome: yes 
+  tasks:
+        - name: Criando o Arquivo info 
+          lineinfile:
+          path: /tmp/info
+          line: SERVIDOR ANSIBLE CONTROLLER
+          create: yes
 
+#Banco de  Dados 
+- hosts: databases
+  remote_user: vagrant
+  bacome: yes 
+  tasks:
+        - name: Criando o Arquivo info 
+          lineinfile:
+          path: /tmp/info
+          line: SERVIDOR DE BANCO DE DADOS
+          create: yes
+          
+#Web Servers 
+- hosts: webservers
+  remote_user: vagrant
+  bacome: yes 
+  tasks:
+        - name: Criando o Arquivo info 
+          lineinfile:
+          path: /tmp/info
+          line: SERVIDOR DO BLOG WORDPRESS
+          create: yes
+
+
+
+  
